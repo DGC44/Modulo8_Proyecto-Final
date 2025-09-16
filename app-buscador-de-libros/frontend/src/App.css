@@ -1,70 +1,269 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  background: #f5f6fa;
-  font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
-  padding: 0;
-}
-
-.app-container {
-  max-width: 600px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-  padding: 32px 24px;
-}
-
-h1 {
-  text-align: center;
-  color: #2d3e50;
-  font-size: 2rem;
-  margin-bottom: 24px;
-  font-weight: 600;
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-bottom: 24px;
-  transition: border-color 0.2s;
-}
-
-input[type="text"]:focus {
-  border-color: #0057b8;
-  outline: none;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  background: #f0f4f8;
-  margin-bottom: 12px;
-  padding: 14px 18px;
-  border-radius: 8px;
-  color: #2d3e50;
-  font-size: 1.05rem;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
   display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  /* Imagen de fondo */
+  background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.wallpapers.com%2Flibro&psig=AOvVaw1fU3wzbzzvZpMQSJDmZqdq&ust=1756079304619000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCLCDyayPoo8DFQAAAAAdAAAAABAE');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  /* Esto nos permite usar posicionamiento absoluto en los hijos */
+  position: relative; 
+  width: 100%;
+  box-sizing: border-box; /* Para incluir padding y borde en el ancho */
+}
+
+/* Estilos para el encabezado y el formulario */
+.app-header {
+  position: relative; /* Contenedor para los elementos de cabecera */
+  width: 100%;
+  height: 100px;
+}
+
+.app-title {
+  /* Título en la esquina superior izquierda */
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-size: 2.5em;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para que se vea mejor */
+}
+
+.app-form-container {
+  /* Formulario y botón en el centro superior */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 1rem;
 }
 
-li:last-child {
-  margin-bottom: 0;
+/* Estilos para los resultados de la búsqueda */
+.libros-container {
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Posiciona los resultados a la izquierda */
+  align-items: flex-start; 
+  text-align: left;
 }
 
-@media (max-width: 700px) {
-  .app-container {
-    padding: 16px 8px;
-    max-width: 98vw;
+.libro-card {
+  padding: 1rem;
+  border: 1px solid #f7f5f5;
+  border-radius: 8px;
+  background-color: rgba(13, 35, 230, 0.8); /* Fondo semi-transparente para ver la imagen de fondo */
+  width: 100%;
+}
+
+.libro-content {
+  display: flex;
+  /* Cambiamos a 'flex-start' para alinear a la izquierda */
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.libro-info {
+  flex-grow: 1;
+}
+
+.libro-cover img {
+  max-width: 128px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.libro-info h3 {
+  margin-top: 0;
+}
+
+/* Estilos para el resto de los componentes */
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
   }
-  h1 {
-    font-size: 1.3rem;
+  to {
+    transform: rotate(360deg);
   }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Estilos para el formulario de login */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 20px;
+}
+
+.login-container h1 {
+  font-size: 2.5em;
+  color: #fff;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 2rem;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input, .form-group select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #fff;
+}
+
+/* Estilos para la página de administrador */
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.admin-container h1, .admin-container h2 {
+  color: #fff;
+}
+
+.error {
+  color: #ff4d4d;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+/* Estilos para el Libro del Mes */
+.book-of-the-month {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.book-of-the-month h2 {
+    color: #4CAF50; /* Un color destacado para el título */
+    margin-bottom: 1rem;
+}
+
+.book-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.book-info-container img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.book-info-text {
+    text-align: left;
+}
+
+.book-info-text h3 {
+    margin-top: 0;
+    color: #f0f0f0;
+}
+
+.book-info-text a {
+    color: #61dafb;
+    text-decoration: underline;
+}
+
+/* Estilos para la reseña del libro del mes */
+.book-review {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #444; /* Línea de separación */
+    text-align: left;
+}
+
+.book-review h3 {
+    margin-bottom: 0.5rem;
+    color: #f0f0f0;
 }

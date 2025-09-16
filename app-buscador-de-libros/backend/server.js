@@ -1,23 +1,44 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const authRoutes = require("./routes/authRoutes");
+const { MongoClient } = require('mongodb')
+const express = require('express')
+const cors = require('cors')
+const dotenv = require('dotenv')
 
-dotenv.config();
+const app = express()
+const port = 3000
 
-const app = express();
+app.use(express.json())
+app.use(cors()) // CORS
 
-app.use(express.json());
+const MONGODB_URI = dotenv.config().parsed.MONGODB_URI
+const DB_NAME = dotenv.config().parsed.DB_NAME
 
-app.use("/api/auth", authRoutes);
+const client = new MongoClient(MONGODB_URI)
+const db = client.db(DB_NAME)
+const todoCollection = db.collection('todos')
 
-mongoose
-  .connect(process.env.MONGO_URI)
 
-  .then(() => console.log("MongoDB Connected"))
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 
-  .catch((err) => console.error(err));
+app.get('/todos', async(req, res) => {
+    const todos = await todoCollection.find().toArray()
+    res.json(todos)
+})
 
-const PORT = process.env.PORT || 5000;
+app.post('/todos', async(req, res) => {
+    const newTodo = req.body.todo
+    const result = await todoCollection.insertOne({ name: newTodo })
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    console.log(result)
+
+    res.json({
+        _id : result.insertedId,
+        name : newTodo
+    })
+})
+
+app.listen(port, async () => {
+    console.log(`Example app listening on port ${port}`)
+    await client.connect()
+})
