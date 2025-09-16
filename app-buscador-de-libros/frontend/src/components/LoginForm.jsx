@@ -1,15 +1,16 @@
+import React, { useCallback } from "react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../validation/loginSchema';
 
-export default function LoginForm({ onLogin, onRegisterView }) {
+function LoginForm({ onLogin, onRegisterView }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = useCallback((data) => {
     onLogin(data);
-  };
+  }, [onLogin]);
 
   return (
     <div className="login-container">
@@ -17,7 +18,7 @@ export default function LoginForm({ onLogin, onRegisterView }) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
           <label htmlFor="userType">Tipo de Usuario</label>
-          <select id="userType" {...register('userType')}>
+          <select id="userType" {...register('userType')} defaultValue="cliente">
             <option value="cliente">Cliente</option>
             <option value="administrador">Administrador</option>
           </select>
@@ -40,7 +41,7 @@ export default function LoginForm({ onLogin, onRegisterView }) {
           />
           {errors.password && <p className="error">{errors.password.message}</p>}
         </div>
-        <button type="submit">Ingresar</button>
+        <button className="search-button" type="submit">Ingresar</button>
       </form>
       <div className="register-link">
         <p>¿No tienes una cuenta? <a href="#" onClick={onRegisterView}>Regístrate</a></p>
@@ -48,3 +49,5 @@ export default function LoginForm({ onLogin, onRegisterView }) {
     </div>
   );
 }
+
+export default React.memo(LoginForm);

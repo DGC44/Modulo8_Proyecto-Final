@@ -1,21 +1,36 @@
-export default function ListaLibros({ titulo, setTitulo, buscarLibro }) {
-    
-    const handleSubmit = (e) => {
-        e.preventDefault(); // Evita que la página se recargue
-        buscarLibro();
-    };
+import React, { useCallback } from "react";
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input 
-                type="text" 
-                name="titulo" 
-                id="titulo" 
-                value={titulo} 
-                onChange={(e) => setTitulo(e.target.value)} 
-                placeholder="Ingresa el título del libro"
-            />
-            <button type="submit">Buscar</button>
-        </form>
-    )
+function ListaLibros({ titulo, setTitulo, buscarLibro }) {
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      buscarLibro();
+    },
+    [buscarLibro]
+  );
+
+  const handleChange = useCallback(
+    (e) => {
+      setTitulo(e.target.value);
+    },
+    [setTitulo]
+  );
+
+  return (
+    <form className="search-form" onSubmit={handleSubmit}>
+      <input
+        className="search-input"
+        type="text"
+        name="titulo"
+        id="titulo"
+        value={titulo}
+        onChange={handleChange}
+        placeholder="Buscar título, autor o palabra clave..."
+        aria-label="Buscar libros"
+      />
+      <button className="search-button" type="submit">Buscar</button>
+    </form>
+  );
 }
+
+export default React.memo(ListaLibros);

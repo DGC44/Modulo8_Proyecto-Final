@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { fetchLibro } from '../services/Libros';
 
-export default function AdminPage({ onSetBookOfTheMonth }) {
+function AdminPage({ libros = [], onSetBookOfTheMonth }) {
   const [bookTitle, setBookTitle] = useState('');
   const [reviewText, setReviewText] = useState(''); // Nuevo estado para la reseña
   const [loading, setLoading] = useState(false);
@@ -59,6 +59,22 @@ export default function AdminPage({ onSetBookOfTheMonth }) {
           {loading ? 'Buscando...' : 'Guardar Libro del Mes'}
         </button>
       </form>
+
+      <div className="libros-container">
+        {libros.map((l, i) => (
+          <div className="libro-card" key={l.id || i}>
+            <div className="libro-cover">
+              {l.cover && <img src={l.cover} alt={l.title} />}
+            </div>
+            <div className="libro-content">
+              <h3>{l.title}</h3>
+              <p className="libro-info muted">{(l.author || []).join?.(", ") || l.author}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
+
+export default React.memo(AdminPage);

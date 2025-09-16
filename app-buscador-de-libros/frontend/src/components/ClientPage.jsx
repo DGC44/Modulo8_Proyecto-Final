@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import ListaLibros from './ListaLibros';
 import Libros from './Libros';
 import { fetchLibro } from '../services/Libros';
 
-export default function ClientPage({ bookOfTheMonth }) {
+function ClientPage({ bookOfTheMonth, libros = [] }) {
   const [titulo, setTitulo] = useState('');
   const [librosEncontrados, setLibrosEncontrados] = useState([]);
 
@@ -22,7 +22,7 @@ export default function ClientPage({ bookOfTheMonth }) {
   };
 
   return (
-    <>
+    <div className="client-container">
       {bookOfTheMonth && (
         <div className="book-of-the-month">
             <h2>Libro del Mes</h2>
@@ -49,7 +49,22 @@ export default function ClientPage({ bookOfTheMonth }) {
         setTitulo={setTitulo} 
         buscarLibro={buscarLibro} 
       />
+      <div className="libros-container">
+        {libros.map((l, i) => (
+          <div className="libro-card" key={l.id || i}>
+            <div className="libro-cover">
+              {l.cover && <img src={l.cover} alt={l.title} />}
+            </div>
+            <div className="libro-content">
+              <h3>{l.title}</h3>
+              <p className="libro-info muted">{(l.author || []).join?.(", ") || l.author}</p>
+            </div>
+          </div>
+        ))}
+      </div>
       <Libros libros={librosEncontrados} />
-    </>
+    </div>
   );
 }
+
+export default React.memo(ClientPage);

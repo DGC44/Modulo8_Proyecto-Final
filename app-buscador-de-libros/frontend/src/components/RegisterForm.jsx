@@ -1,15 +1,16 @@
+import React, { useCallback } from "react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from '../validation/loginSchema';
 
-export default function RegisterForm({ onRegister, onLoginView }) {
+function RegisterForm({ onRegister, onLoginView }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = useCallback((data) => {
     onRegister(data);
-  };
+  }, [onRegister]);
 
   return (
     <div className="login-container">
@@ -41,3 +42,5 @@ export default function RegisterForm({ onRegister, onLoginView }) {
     </div>
   );
 }
+
+export default React.memo(RegisterForm);
