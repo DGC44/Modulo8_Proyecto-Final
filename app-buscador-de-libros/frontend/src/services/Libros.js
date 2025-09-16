@@ -38,3 +38,18 @@ export async function fetchLibro(titulo) {
         return null;
     }
 }
+
+export const fetchBooks = async (query = "react") => {
+  try {
+    const res = await fetch(
+      `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`
+    );
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status} - ${res.statusText}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error("fetchBooks error:", error);
+    return null;
+  }
+};

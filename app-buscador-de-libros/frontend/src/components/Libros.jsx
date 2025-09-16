@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { fetchBooks } from "../services/Libros";
+import fetchBooks from "../services/Libros";
 import ListaLibros from "./ListaLibros";
 
 function Libros() {
