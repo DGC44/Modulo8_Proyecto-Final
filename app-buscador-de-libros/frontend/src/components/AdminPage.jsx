@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { fetchLibro } from '../services/Libros';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import imgSherma from '../assets/Npc_sherma.webp';
 
 export default function AdminPage({ onSetBookOfTheMonth }) {
   const [bookTitle, setBookTitle] = useState('');
-  const [reviewText, setReviewText] = useState(''); // Nuevo estado para la reseña
+  const [reviewText, setReviewText] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Inicializa el hook de navegación
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,7 +16,6 @@ export default function AdminPage({ onSetBookOfTheMonth }) {
     const datosLibro = await fetchLibro(bookTitle);
 
     if (datosLibro) {
-        // Agregamos la reseña a los datos del libro antes de guardarlos
         const libroConResena = { ...datosLibro, review: reviewText };
         onSetBookOfTheMonth(libroConResena);
         alert(`Se ha configurado "${datosLibro.title}" como el libro del mes.`);
@@ -23,13 +25,19 @@ export default function AdminPage({ onSetBookOfTheMonth }) {
     }
     setLoading(false);
     setBookTitle('');
-    setReviewText(''); // Limpiamos el campo de reseña
+    setReviewText('');
+  };
+
+  const handleManageUsersClick = () => {
+    navigate('/admin/users'); // Redirige a la nueva ruta
   };
 
   return (
     <div className="admin-container">
       <h1>Panel de Administrador</h1>
-      <h1>Hora de jugar a ser dios, Ya salio SILKSONG</h1>
+      <h1>Panel de Administrador</h1>
+      <h2>Eres el Admin eres dios, Ya salio Silksong</h2>
+      <img src={imgSherma} alt="Imagen de Hollow Knight Silksong" style={{ maxWidth: '200px', margin: '20px 0' }} />
       <p>Bienvenido, aquí puedes gestionar el contenido de la aplicación.</p>
       
       <h2>Formulario: Libro del Mes</h2>
@@ -59,6 +67,11 @@ export default function AdminPage({ onSetBookOfTheMonth }) {
           {loading ? 'Buscando...' : 'Guardar Libro del Mes'}
         </button>
       </form>
+
+      {/* Nuevo botón para la gestión de usuarios */}
+      <button onClick={handleManageUsersClick} className="manage-users-btn">
+        Gestionar Clientes
+      </button>
     </div>
   );
 }
